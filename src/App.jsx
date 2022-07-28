@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { reducerCases } from './utils/Constants'
 import { useStateProvider } from './utils/StateProvider'
-import Home from './components/Home'
-import Login from './components/Login'
+import Home from './pages/Home'
+import Login from './pages/Login'
 
 function App() {
   const [{ token }, dispatch] = useStateProvider()
