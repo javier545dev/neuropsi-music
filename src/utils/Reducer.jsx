@@ -1,7 +1,8 @@
 import { reducerCases } from './Constants'
 export const initialState = {
   token: null,
-  userInfo: null, 
+  userInfo: null,
+  searchResults: ''
 }
 
 const reducer = (state, action) => {
@@ -15,6 +16,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         userInfo: action.userInfo
+      }
+    case reducerCases.SET_SEARCH_RESULTS:
+      return {
+        ...state,
+        searchResults: action.searchResults
       }
     default:
       return state

@@ -23,7 +23,6 @@ const Login = () => {
   return (
     <div className='flex flex-col items-center justify-center h-screen w-screen gap-20 bg-green-600'>
       <img src={Spotify} alt='spotify' className='h-[20vh]' />
-      <h2>Login Spotify</h2>
       <button
         className='cursor-pointer text-[1.5rem] border-none bg-black text-green-600 px-[5rem] py-[1rem] rounded-full'
         onClick={handleClick}
