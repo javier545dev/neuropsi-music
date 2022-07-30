@@ -11,7 +11,7 @@ const Header = () => {
   const query = async searchQuery => {
     try {
       const queryResult = await axios.get(
-        `https://api.spotify.com/v1/search?q=${searchQuery}&type=track&limit=10`,
+        `https://api.spotify.com/v1/search?q=${searchQuery}&type=track%2Cartist&limit=10`,
         {
           headers: {
             Authorization: 'Bearer ' + token,
@@ -38,10 +38,10 @@ const Header = () => {
   }
 
   return (
-    <nav className='flex flex-row justify-end w-full h-[80px] px-3 bg-black'>
+    <nav className='flex flex-row md:justify-end justify-center w-full h-[80px] px-3 bg-black'>
       <form className='flex flex-row items-center' onSubmit={handleSubmit}>
-        <div className='flex flex-row items-center bg-white rounded-full h-10 w-[32rem] '>
-          <FaSearch className='h-6 text-black pointer mx-[1rem]' />
+        <div className='flex flex-row items-center bg-white rounded-full h-8 w-auto md:w-[16rem] lg:w-[30rem] '>
+          <FaSearch className='w-[3rem] text-black pointer mx-[1rem]' />
           <input
             type='text'
             placeholder='Artists, Songs, Albums...'
@@ -57,7 +57,7 @@ const Header = () => {
           </button>
         </div>
       </form>
-      <div className='flex flex-col rounded-full items-center justify-center ml-[5rem]'>
+      <div className='md:flex flex-col rounded-full items-center justify-center ml-[1rem] mr-[1em] hidden '>
         <a href='' className='flex flex-col items-center'>
           <img
             src={userInfo?.imgProfile[0].url}

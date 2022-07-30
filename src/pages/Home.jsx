@@ -6,7 +6,6 @@ import { useStateProvider } from '../utils/StateProvider'
 import Header from '../components/Header'
 import Aside from '../components/Aside'
 import Body from '../components/Body'
-import Lyric from '../components/Lyric'
 import Footer from '../components/Footer'
 
 const Home = () => {
@@ -34,14 +33,10 @@ const Home = () => {
     <main className='flex flex-col items-center max-h-[100vh] max-w-[100vw] mx-auto bg-black overflow-hidden'>
       <Header />
 
-      <div className='flex flex-row w-full h-[85vh]'>
+      <div className='flex flex-row w-screen h-[85vh] z-20'>
         <Aside />
-        <div className='flex flex-row w-auto bg-gradient-to-b from-black via-slate-800 to-cyan-300 h-[75vh]'>
-          <Body />
-          <Lyric />
-        </div>
+        <Body />
       </div>
-
       <Footer />
     </main>
   )

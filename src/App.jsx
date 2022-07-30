@@ -14,7 +14,7 @@ function App() {
         dispatch({ type: reducerCases.SET_TOKEN, token })
       }
     }
-    document.title = 'Spotify'
+    document.title = 'Neuropsi'
   }, [dispatch, token])
   return (
     <main className='flex flex-col items-center mx-auto bg-black min-w-screen w-full'>
