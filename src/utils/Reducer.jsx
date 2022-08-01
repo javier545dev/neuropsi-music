@@ -2,7 +2,9 @@ import { reducerCases } from './Constants'
 export const initialState = {
   token: null,
   userInfo: null,
-  searchResults: ''
+  searchResults: '',
+  currentlyPlaying: null,
+  playerState: false
 }
 
 const reducer = (state, action) => {
@@ -21,6 +23,16 @@ const reducer = (state, action) => {
       return {
         ...state,
         searchResults: action.searchResults
+      }
+    case reducerCases.SET_PLAYING:
+      return {
+        ...state,
+        currentTrack: action.currentlyPlaying
+      }
+    case reducerCases.SET_PLAYER_STATE:
+      return {
+        ...state,
+        playerState: action.playerState
       }
     default:
       return state
