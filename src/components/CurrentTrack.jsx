@@ -18,6 +18,7 @@ const CurrentTrack = () => {
         }
       )
       if (data !== '') {
+        console.log(data)
         const { item } = data
         const currentlyPlaying = {
           id: item.id,
@@ -25,22 +26,24 @@ const CurrentTrack = () => {
           artists: item.artists.map(artist => artist.name),
           image: item.album.images[2].url
         }
-        dispatch({ type: reducerCases.SET_CURRENT_TRACK, currentlyPlaying })
+        dispatch({ type: reducerCases.SET_PLAYING, currentlyPlaying })
       }
     }
     getCurrentTrack()
   }, [dispatch, token])
-
   return (
     <div>
       {currentlyPlaying && (
         <div className='flex items-center gap-[1rem]'>
           <div className=''>
-            <img src={currentlyPlaying.image} alt='currentlyplaying' />
+            <img
+              src={currentlyPlaying.image}
+              alt='currentlyplaying'
+              className='rounded-full'
+            />
           </div>
           <div className='flex flex-col gap-[0.3rem]'>
             <h4 className='text-white'>{currentlyPlaying.name}</h4>
-            <h6 className='text-gray-50'>{currentlyPlaying.artists.join(',')}</h6>
           </div>
         </div>
       )}

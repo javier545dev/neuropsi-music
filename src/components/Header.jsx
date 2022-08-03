@@ -51,7 +51,7 @@ const Header = () => {
           />
           <button
             type='submit'
-            className='text-black bg-white w-24 pr-[1rem] rounded-full'
+            className='text-black bg-cyan-300 w-32 px-[1rem] h-7 rounded-full mr-[2px]'
           >
             Search
           </button>

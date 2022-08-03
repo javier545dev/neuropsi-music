@@ -27,7 +27,7 @@ const reducer = (state, action) => {
     case reducerCases.SET_PLAYING:
       return {
         ...state,
-        currentTrack: action.currentlyPlaying
+        currentlyPlaying: action.currentlyPlaying
       }
     case reducerCases.SET_PLAYER_STATE:
       return {

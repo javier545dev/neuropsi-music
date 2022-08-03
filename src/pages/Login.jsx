@@ -3,7 +3,7 @@ import Spotify from '../assets/spotifyLogo.png'
 const Login = () => {
   const handleClick = async () => {
     const client_id = import.meta.env.VITE_APP_SPOTIFY_CLIENT_ID
-    const redirect_uri = 'http://localhost:5173/'
+    const redirect_uri = import.meta.env.VITE_APP_SPOTIFY_REDIRECT_URI
     const api_uri = 'https://accounts.spotify.com/authorize'
     const scope = [
       'user-read-private',

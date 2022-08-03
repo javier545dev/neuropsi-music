@@ -37,41 +37,42 @@ const PlayerControls = () => {
         id: item.id,
         name: item.name,
         artist: item.artists.map(artist => artist.name),
-        album: item.album[2].url
+        album: item.album.images[2].url
       }
       dispatch({ type: reducerCases.SET_PLAYING, currentlyPlaying })
     } else dispatch({ type: reducerCases.SET_PLAYING, currentlyPlaying: null })
   }
 
   const changeState = async () => {
-    const state = playerState ? 'paused' : 'play'
-    const response = await axios.put(
+    const state = playerState ? 'pause' : 'play'
+    await axios.put(
       `https://api.spotify.com/v1/me/player/${state}`,
       {},
       {
         headers: {
-          Authorization: 'Bearer ' + token,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token
         }
       }
     )
-    console.log(response)
-    dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: !playerState })
+    dispatch({
+      type: reducerCases.SET_PLAYER_STATE,
+      playerState: !playerState
+    })
   }
-
   return (
-    <div className='flex flex-row items-center gap-8 text-[1.5rem]'>
+    <div className='flex flex-row items-center gap-6 md:gap-10 text-[1.5rem]'>
       <div className='text-gray-500 transition-colors hover:text-white'>
         <BsShuffle />
       </div>
       <div className='text-gray-500 transition-colors hover:text-white'>
         <CgPlayTrackPrev onClick={() => changeTrack('previous')} />
       </div>
-      <div className='text-white transition-colors hover:text-white text-[2rem]'>
+      <div className='text-cyan-300 transition-colors hover:text-cyan-300 text-[3rem]'>
         {playerState ? (
-          <BsFillPlayCircleFill onClick={changeState} />
-        ) : (
           <BsFillPauseCircleFill onClick={changeState} />
+        ) : (
+          <BsFillPlayCircleFill onClick={changeState} />
         )}
       </div>
       <div className='text-gray-500 transition-colors hover:text-white'>
