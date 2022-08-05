@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { reducerCases } from '../utils/Constants'
-import { useStateProvider } from '../utils/StateProvider'
+import { reducerCases } from '../store/Constants'
+import { useStateProvider } from '../store/StateProvider'
 import axios from 'axios'
 import { FaSearch } from 'react-icons/fa'
 

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { reducerCases } from './utils/Constants'
-import { useStateProvider } from './utils/StateProvider'
+import { reducerCases } from './store/Constants'
+import { useStateProvider } from './store/StateProvider'
 import Home from './pages/Home'
 import Login from './pages/Login'
 

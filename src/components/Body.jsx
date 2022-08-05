@@ -1,19 +1,22 @@
 /* eslint-disable camelcase */
-import { useStateProvider } from '../utils/StateProvider'
-import { reducerCases } from '../utils/Constants'
+import { useStateProvider } from '../store/StateProvider'
+import { reducerCases } from '../store/Constants'
 import axios from 'axios'
 import { BsFillPlayCircleFill } from 'react-icons/bs'
 import { AiFillClockCircle } from 'react-icons/ai'
 
 const Body = () => {
   const [{ token, searchResults }, dispatch] = useStateProvider()
-  console.log(searchResults, 'searchResults')
   const { tracks, artists } = searchResults
 
-  const playTrack = async (id, name, uri, track_number) => {
-    console.log(uri)
-    console.log(track_number)
-    console.log(id)
+  const playTrack = async item => {
+    const {
+      id,
+      name,
+      track_number,
+      album: { uri, images }
+    } = item
+    console.log(item)
     const response = await axios.put(
       `https://api.spotify.com/v1/me/player/play`,
       {
@@ -30,13 +33,14 @@ const Body = () => {
         }
       }
     )
-    console.log('trackplay', response)
     if (response.status === 204) {
       const currentlyPlaying = {
         id,
         name,
-        artists
+        artists,
+        image: images[2].url
       }
+      console.log(currentlyPlaying)
       dispatch({ type: reducerCases.SET_PLAYING, currentlyPlaying })
       dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true })
     } else dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true })
@@ -68,42 +72,40 @@ const Body = () => {
         </div>
         <div className='flex flex-row flex-wrap justify-center items-center h-[100%] pb-[15rem] w-full pt-[5rem] z-10'>
           {tracks?.items.map((item, index) => {
-            const { uri } = item.album
-            const { id, name, album, track_number, duration_ms } = item
             return (
               <div
                 className='grid overflow-hidden grid-lines grid-cols-4 auto-rows-fr gap-0 w-full h-[8rem] items-center justify-center hover:bg-cyan-300 hover:z-20 transition ease-in-out delay-100 text-white hover:text-black shadow-lg'
-                key={id}
-                onClick={() => playTrack(id, name, uri, track_number)}
+                key={item.id}
+                onClick={() => playTrack(item)}
               >
                 <div
                   className='flex flex-row justify-center items-center gap-3 md:gap-10 lg:gap-14 w-full '
-                  onClick={() => playTrack(id, name, uri, track_number)}
+                  onClick={() => playTrack(item)}
                 >
                   <span>{index + 1}</span>
 
                   <BsFillPlayCircleFill
-                    onClick={() => playTrack(id, name, uri, track_number)}
+                    onClick={() => playTrack(item)}
                     className='text-[2rem]'
                   />
                 </div>
                 <div className='flex flex-col items-center justify-center'>
                   <h2 className='pt-[0.5rem] text-[0.7rem] md:text-[1rem]'>
-                    {name}
+                    {item.name}
                   </h2>
                   <h1 className='pt-[0.5rem] text-[0.7rem] md:text-[1rem]'>
-                    {album.artists[0].name}
+                    {item.album.artists[0].name}
                   </h1>
                 </div>
                 <div className='flex flex-row justify-center items-center'>
                   <img
-                    src={album.images[2].url}
+                    src={item.album.images[2].url}
                     alt='track'
                     className='h-[4rem] w-[4rem] hover:w-[7rem] hover:h-[7rem] rounded-full border-2 hover:border-black'
                   />
                 </div>
                 <div className='flex flex-row justify-center items-center text-[0.7rem] md:text-[1rem]'>
-                  <span>{msToMinutesAndSeconds(duration_ms)}</span>
+                  <span>{msToMinutesAndSeconds(item.duration_ms)}</span>
                 </div>
               </div>
             )
@@ -111,7 +113,6 @@ const Body = () => {
         </div>
         <div className='flex flex-row flex-wrap justify-center items-center h-[100%] pb-[2rem] w-full z-10'>
           {artists?.items.map(item => {
-            console.log(item, 'artists')
             return (
               <div
                 className='flex flex-col justify-center items-center gap-5 w-[15rem] h-[15rem] '

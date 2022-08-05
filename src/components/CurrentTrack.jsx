@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { useStateProvider } from '../utils/StateProvider'
-import { reducerCases } from '../utils/Constants'
+import { useStateProvider } from '../store/StateProvider'
+import { reducerCases } from '../store/Constants'
 import axios from 'axios'
 
 const CurrentTrack = () => {
@@ -17,9 +17,10 @@ const CurrentTrack = () => {
           }
         }
       )
+      console.log(data)
       if (data !== '') {
-        console.log(data)
         const { item } = data
+        console.log(item.album)
         const currentlyPlaying = {
           id: item.id,
           name: item.name,
@@ -30,7 +31,9 @@ const CurrentTrack = () => {
       }
     }
     getCurrentTrack()
-  }, [dispatch, token])
+    console.log(currentlyPlaying)
+  }, [])
+
   return (
     <div>
       {currentlyPlaying && (

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import axios from 'axios'
-import { reducerCases } from '../utils/Constants'
-import { useStateProvider } from '../utils/StateProvider'
+import { reducerCases } from '../store/Constants'
+import { useStateProvider } from '../store/StateProvider'
 
 import Header from '../components/Header'
 import Aside from '../components/Aside'
