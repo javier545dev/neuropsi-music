@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { useEffect } from 'react'
 import { useStateProvider } from '../store/StateProvider'
 import { reducerCases } from '../store/Constants'
 import axios from 'axios'
@@ -6,23 +7,60 @@ import { BsFillPlayCircleFill } from 'react-icons/bs'
 import { AiFillClockCircle } from 'react-icons/ai'
 
 const Body = () => {
-  const [{ token, searchResults }, dispatch] = useStateProvider()
-  const { tracks, artists } = searchResults
+  const [{ device, token, searchResults, playerState }, dispatch] =
+    useStateProvider()
+  const { tracks } = searchResults
+
+  useEffect(() => {
+    console.log(playerState)
+  }, [playerState])
+
+  useEffect(() => {
+    const script = document.createElement('script')
+    script.src = 'https://sdk.scdn.co/spotify-player.js'
+    script.async = true
+    document.body.appendChild(script)
+    window.onSpotifyWebPlaybackSDKReady = () => {
+      const player = new window.Spotify.Player({
+        name: 'Spotify Web Player',
+        getOAuthToken: cb => {
+          cb(token)
+        },
+        volume: 0.5
+      })
+
+      player.addListener('ready', ({ device_id, name }) => {
+        dispatch({
+          type: reducerCases.SET_DEVICE,
+          device: device_id,
+          name
+        })
+      })
+      player.addListener('not_ready', ({ device_id, name }) => {
+        dispatch({
+          type: reducerCases.SET_DEVICE,
+          device: device_id === null ? 'Computer' : device_id,
+          name
+        })
+      })
+
+      player.connect()
+    }
+  }, [token])
 
   const playTrack = async item => {
     const {
       id,
       name,
       track_number,
-      album: { uri, images }
+      album: { uri }
     } = item
-    console.log(item)
     const response = await axios.put(
-      `https://api.spotify.com/v1/me/player/play`,
+      `https://api.spotify.com/v1/me/player/play?device_id=${device}`,
       {
         context_uri: uri,
         offset: {
-          position: track_number - 1
+          position: track_number
         },
         position_ms: 0
       },
@@ -33,17 +71,23 @@ const Body = () => {
         }
       }
     )
+    console.log(response)
     if (response.status === 204) {
       const currentlyPlaying = {
         id,
         name,
-        artists,
-        image: images[2].url
+        uri
       }
-      console.log(currentlyPlaying)
       dispatch({ type: reducerCases.SET_PLAYING, currentlyPlaying })
-      dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true })
-    } else dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true })
+      dispatch({
+        type: reducerCases.SET_PLAYER_STATE,
+        playerState: true
+      })
+    } else
+      dispatch({
+        type: reducerCases.SET_PLAYER_STATE,
+        playerState: !playerState
+      })
   }
   const msToMinutesAndSeconds = ms => {
     const minutes = Math.floor(ms / 60000)
@@ -111,7 +155,7 @@ const Body = () => {
             )
           })}
         </div>
-        <div className='flex flex-row flex-wrap justify-center items-center h-[100%] pb-[2rem] w-full z-10'>
+        {/* <div className='flex flex-row flex-wrap justify-center items-center h-[100%] pb-[2rem] w-full z-10'>
           {artists?.items.map(item => {
             return (
               <div
@@ -120,7 +164,7 @@ const Body = () => {
               ></div>
             )
           })}
-        </div>
+        </div> */}
       </div>
     </div>
   )

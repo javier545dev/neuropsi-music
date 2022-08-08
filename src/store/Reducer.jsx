@@ -1,6 +1,7 @@
 import { reducerCases } from './Constants'
 export const initialState = {
   token: null,
+  device: null,
   userInfo: null,
   searchResults: '',
   currentlyPlaying: null,
@@ -13,6 +14,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         token: action.token
+      }
+    case reducerCases.SET_DEVICE:
+      return {
+        ...state,
+        device: action.device
       }
     case reducerCases.SET_USER:
       return {

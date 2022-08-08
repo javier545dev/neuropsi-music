@@ -17,10 +17,8 @@ const CurrentTrack = () => {
           }
         }
       )
-      console.log(data)
       if (data !== '') {
         const { item } = data
-        console.log(item.album)
         const currentlyPlaying = {
           id: item.id,
           name: item.name,
@@ -31,7 +29,6 @@ const CurrentTrack = () => {
       }
     }
     getCurrentTrack()
-    console.log(currentlyPlaying)
   }, [])
 
   return (
@@ -47,6 +44,7 @@ const CurrentTrack = () => {
           </div>
           <div className='flex flex-col gap-[0.3rem]'>
             <h4 className='text-white'>{currentlyPlaying.name}</h4>
+            <h6 className='text-white'>{currentlyPlaying.artists}</h6>
           </div>
         </div>
       )}
